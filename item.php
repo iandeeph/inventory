@@ -113,11 +113,11 @@
 									}
 
 								    $nameUserQry = "";
-							        $nameUserQry = "SELECT user.name as name, division.name as division FROM user,division WHERE user.iduser = '".$iduser."' AND user.iddivision = division.iddivision LIMIT 1";
+							        $nameUserQry = "SELECT user.name as nameUser, division.name as division FROM user,division WHERE user.iduser = '".$iduser."' AND user.iddivision = division.iddivision LIMIT 1";
 							        if($resultNameUserUser = mysql_query($nameUserQry)){
 							            if (mysql_num_rows($resultNameUserUser) > 0) {
 							                $rowNameUser = mysql_fetch_array($resultNameUserUser);
-						                    $name           = $rowNameUser['name'];
+						                    $nameUser           = $rowNameUser['nameUser'];
 						                    $division     = $rowNameUser['division'];
 						                }
 						            }
@@ -143,7 +143,7 @@
 												<?php
 													if($status == "Used Up"){
 														?>
-															<a href="<?php echo "#modalShowUser".$iduser; ?>" class="modal-trigger waves-effect waves-light" title="<?php echo $name." - ".$division?>"><i class="material-icons edit">help</i></a>
+															<a href="<?php echo "#modalShowUser".$iduser; ?>" class="modal-trigger waves-effect waves-light" title="<?php echo $nameUser." - ".$division?>"><i class="material-icons edit">help</i></a>
 															<!-- =========== MODAL -->
 															<div id="<?php echo "modalShowUser".$iduser; ?>" class="modal">
 																<div class="modal-content">
