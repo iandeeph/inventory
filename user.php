@@ -298,7 +298,7 @@
 		</div>
 		<div id="modalConfirmation" class="modal">
 			<div class="modal-content">
-				<h5>Kembalikan Item Ke-Stock Untuk Menghapus ZUser..</h5>
+				<h5>Kembalikan Item Ke-Stock Untuk Menghapus User..</h5>
 			</div>
 			<div class="modal-footer col s12 mb-10">
 				<a href="#!" class="mr-10 waves-effect modal-action modal-close waves-light btn green darken-4 right">Yes</a>

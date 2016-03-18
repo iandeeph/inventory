@@ -402,6 +402,7 @@
 								?>
 							</select>
 							<label>Jenis Item</label>
+							<a href="#modalAddCategory" class="blue-text left modal-trigger">[+] Tambah Jenis Item</a>
 						</div>
 						<div class="file-field input-field col s12 m6 l6">
 							<input id="addItemName" name="addItemName" type="text" class="validate" required>
@@ -421,7 +422,7 @@
 										if (mysql_num_rows($resultUser) > 0) {
 											while ($rowUser = mysql_fetch_array($resultUser)) {
 												$iduserUpdate 		= $rowUser['userid'];
-												$nameUserUpdate 		= $rowUser['nameUser'];
+												$nameUserUpdate 	= $rowUser['nameUser'];
 												$divisionUpdate 	= $rowUser['division'];
 												?>
 													<option value="<?php echo $iduserUpdate; ?>"><?php echo $nameUserUpdate." - ".$divisionUpdate; ?></option>
@@ -435,6 +436,72 @@
 						</div>
 						<div class="input-field col s12 mb-20">
 							<button type="submit" name="addItemButton" class="waves-effect waves-light btn green darken-4 right">Add</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="modalAddCategory" class="modal">
+			<div class="modal-content">
+				<div class="border-bottom mb-10"><h4>Tambah Jenis Item Baru</h4></div>
+				<div class="col s12 mt-30 center container">
+					<div class="col s12 m6 l6">
+						<table class="striped">
+							<thead>
+								<tr>
+									<th data-field="No">
+										No.
+									</th>
+									<th data-field="category">
+										Jenis Item
+									</th>
+									<th data-field="action">
+									</th>
+								</tr>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
+								$no = 1;
+								$catQry = "";
+								$catQry = "SELECT idcategory, name FROM category ORDER BY name ASC";
+								if($resultCat = mysql_query($catQry)){
+									if (mysql_num_rows($resultCat) > 0) {
+										while($rowCat = mysql_fetch_array($resultCat)){
+											$idCatAdd 	= $rowCat['idcategory'];
+											$nameCatAdd = $rowCat['name'];
+											?>
+											<tr>
+												<td>
+													<?php echo $no; ?>
+												</td>
+												<td>
+													<?php echo $nameCatAdd; ?>
+												</td>
+												<td>
+													<form action="#" method="post" enctype="multipart/form-data">
+														<input type="hidden" value="<?php echo $idCatAdd; ?>" name="catDelId">
+														<button name="btnDelCat" title ="Hapus Jenis Item" class="btn-floating waves-effect redaccent-3 waves-light"><i class="material-icons left">delete</i></button>
+													</form>
+												</td>
+											</tr>
+											<?php
+										$no++;
+										}
+									}
+								}
+							?>
+							</tbody>
+						</table>
+					</div>
+					<form action="#" method="post" enctype="multipart/form-data">
+						<div class="file-field input-field col s12 m6 l6">
+							<input id="addCatName" name="addCatName" type="text" class="validate" required>
+							<label for="addCatName">Nama Janis Item Baru</label>
+						</div>
+						<div class="input-field col s12 mb-20">
+							<button type="submit" name="addCategoryButton" class="waves-effect waves-light btn green darken-4 right">Tambah</button>
+							<a href="#!" class="ml-10 mr-10 modal-action modal-close waves-effect waves-light btn blue darken-4 right">Cancel</a>
 						</div>
 					</form>
 				</div>

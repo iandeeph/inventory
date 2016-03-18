@@ -15,7 +15,7 @@ function logging($date, $user, $action, $value, $iditem){
 	$insertLogQry = "";
 	$insertLogQry = "INSERT INTO log (date, user, action, value, iditem) VALUES ('".$date."', '".$user."', '".$action."', '".$value."', '".$iditem."')";
 	if(!mysql_query($insertLogQry)){
-    	echo "ERROR: Could not able to execute ".$insertLogQry.". " . mysql_error($conn);
+    	alertBox("ERROR: Could not able to execute " . mysql_error($conn));
     }else{
     	alertBox("loging success..!!");
     }
@@ -131,6 +131,65 @@ if(isset($_POST['btnDeleteItem'])){
 		    alertBox("Error deleting record: " . mysqli_error($conn));
 		}
 	}
+}
+
+// ============================== BUTTON DELETE CATEGORY ==========================================================
+if(isset($_POST['btnDelCat'])){
+    $postIdCat = $_POST['catDelId'];
+    $delCatQry = "DELETE FROM category WHERE idcategory = '".$postIdCat."'";
+
+    // =============================================== LOGING
+    $delLogCatQry = "";
+    $delLogCatQry = "SELECT * FROM category WHERE idcategory = '".$postIdCat."'";
+    if($resultDelLogCat = mysql_query($delLogCatQry)){
+        if (mysql_num_rows($resultDelLogCat) > 0) {
+            while($rowDelLogCat = mysql_fetch_array($resultDelLogCat)){
+                $idcategory    = $rowDelLogCat['idcategory'];
+                $nameCat       = $rowDelLogCat['name'];
+
+                $loggingText = "ID Category : ".$idcategory."
+                                Category Name : ".$nameCat."";
+
+                logging($now, $user, "Deleting item(s)", $loggingText, $postIdCat);
+            }
+        }
+    }
+    // =============================================== LOGING
+    if (mysql_query($delCatQry)) {
+        alertBox("Jenis item berhasil dihapus");
+    } else {
+        alertBox("Error deleting record: " . mysqli_error($conn));
+    }
+}
+
+
+// ============================================= ADD NEW CATEGORY
+if(isset($_POST['addCategoryButton'])){
+    $postaddName    = $_POST['addCatName'];
+
+    $idCategoryQry = "";
+    $idCategoryQry = "SELECT count(idcategory) as countId FROM category WHERE name = '".$postaddName."'";
+    if($resultIdCategory = mysql_query($idCategoryQry)){
+        if (mysql_num_rows($resultIdCategory) > 0) {
+            $rowIdCategory = mysql_fetch_array($resultIdCategory);
+            if ($rowIdCategory['countId'] == 0) {
+                $addNewCategoryQry = "";
+                $addNewCategoryQry = "INSERT INTO category (name) VALUES ('".$postaddName."')";
+
+                $loggingText = "Category Name : ".$postaddName."";
+
+                if(mysql_query($addNewCategoryQry)){
+                    $LastId = mysql_insert_id($conn);
+                    logging($now, $user, "Add New Category", $loggingText, $LastId);
+                    header('Location: ./index.php?menu=item');
+                }else{
+                    alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+                }
+            }else{
+                alertBox("Category sudah ada..!!!");
+            }
+        }
+    }
 }
 
 // ==============================================================================================================================
