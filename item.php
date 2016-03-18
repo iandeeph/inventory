@@ -42,6 +42,9 @@
 						<th width="7%" data-field="dateIn">
 							Tgl Masuk
 						</th>
+						<th width="15%" data-field="notes">
+							Catatan
+						</th>
 						<th width="7%" data-field="action">
 							Action
 						</th>
@@ -72,6 +75,9 @@
 						<th data-field="dateIn">
 							Tgl Masuk
 						</th>
+						<th data-field="notes">
+							Catatan
+						</th>
 						<th data-field="action">
 							Action
 						</th>
@@ -92,6 +98,8 @@
 									$dateIn			= $rowItem['tglMasuk'];
 									$dateIn2		= $rowItem['dateIn'];
 									$status 		= $rowItem['status'];
+									$iduser 		= $rowItem['iduser'];
+									$notes 		= $rowItem['notes'];
 
 									$catQry = "";
 									$catQry = "SELECT name FROM category WHERE idcategory = '".$idcategory."'";
@@ -103,6 +111,16 @@
 											$category = "Not Found";
 										}
 									}
+
+								    $nameUserQry = "";
+							        $nameUserQry = "SELECT user.name as name, division.name as division FROM user,division WHERE user.iduser = '".$iduser."' AND user.iddivision = division.iddivision LIMIT 1";
+							        if($resultNameUserUser = mysql_query($nameUserQry)){
+							            if (mysql_num_rows($resultNameUserUser) > 0) {
+							                $rowNameUser = mysql_fetch_array($resultNameUserUser);
+						                    $name           = $rowNameUser['name'];
+						                    $division     = $rowNameUser['division'];
+						                }
+						            }
 									?>
 										<tr>
 											<td class="valign-wrapper">
@@ -120,8 +138,53 @@
 											<td><?php echo $category; ?></td>
 											<td><?php echo $name; ?></td>
 											<td><?php echo $serialNumber; ?></td>
-											<td><?php echo $status; ?></td>
+											<td>
+												<?php echo $status; ?>
+												<?php
+													if($status == "Used Up"){
+														?>
+															<a href="<?php echo "#modalShowUser".$iduser; ?>" class="modal-trigger waves-effect waves-light" title="<?php echo $name." - ".$division?>"><i class="material-icons edit">help</i></a>
+															<!-- =========== MODAL -->
+															<div id="<?php echo "modalShowUser".$iduser; ?>" class="modal">
+																<div class="modal-content">
+																	<div class="row">
+																		<div class="col s12">
+																			<h3 class="left-align">Item Used by :</h3>
+																		</div>
+																		<div class="col s12">
+																			<table class="striped responsive-table col s12">
+																				<thead>
+																					<!-- =================== to wide screen display -->
+																					<tr class="hide-on-small-only">
+																						<th width="5%" data-field="name">
+																							Name
+																						</th>
+																						<th width="7%" data-field="division">
+																							Division
+																						</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td><?php echo $name; ?></td>
+																						<td><?php echo $division; ?></td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div>
+																<div class="modal-footer col s12 mb-10">
+																	<a href="#!" class="mr-10 waves-effect modal-action modal-close waves-light btn green darken-4 right">OK</a>
+																</div>
+															</div>
+															<!-- =========== MODAL -->
+														<?php
+													}
+												?>
+											</td>
 											<td><?php echo $dateIn; ?></td>
+											<td><?php echo $notes; ?></td>
 											<td>
 												<a href="<?php echo "#modalEditItem".$iditem; ?>" class="btn-floating btn modal-trigger waves-effect waves-light btn green darken-2"><i class="material-icons edit">edit</i></a>
 											</td>
@@ -167,8 +230,12 @@
 														<label for="<?php echo "serialNumber".$iditem; ?>">Serial Number</label>
 													</div>
 													<div class="input-field col s12 m6 l6">
-														<label  class="active" for="<?php echo "dateIn".$iditem; ?>">Date From</label>
 														<input name="<?php echo "dateIn".$iditem; ?>" id="<?php echo "dateIn".$iditem; ?>" value="<?php echo date('j F, Y', strtotime($dateIn2)); ?>" type="date" class="datepicker">
+														<label  class="active" for="<?php echo "dateIn".$iditem; ?>">Tanggal Masuk</label>
+													</div>
+													<div class="file-field input-field col s12 m6 l6">
+														<input id="<?php echo "notes".$iditem; ?>" name="<?php echo "notes".$iditem; ?>" value="<?php echo $notes; ?>" type="text" class="validate">
+														<label for="<?php echo "notes".$iditem; ?>">Catatan</label>
 													</div>
 													<div class="input-field col s12 mb-30">
 														<input value="<?php echo $iditem; ?>" name="<?php echo "hiddeniditem".$iditem; ?>" type="hidden">
@@ -187,6 +254,7 @@
 										$name 			= "name".$iditem;
 										$serialNumber 	= "serialNumber".$iditem;
 										$dateIn 		= "dateIn".$iditem;
+										$notes 			= "notes".$iditem;
 										$iditem 		= "hiddeniditem".$iditem;
 
 										$postidinventory 	= $_POST[$idinventory];
@@ -194,6 +262,7 @@
 										$postname 			= $_POST[$name];
 										$postcategory 		= $_POST[$category];
 										$postserialNumber 	= $_POST[$serialNumber];
+										$postnotes 			= $_POST[$notes];
 										$postiditem 		= $_POST[$iditem];
 
 										$updateItemQry = "UPDATE item SET
@@ -201,6 +270,7 @@
 															dateIn = '".$postdateIn."',
 															name = '".$postname."',
 															idcategory = '".$postcategory."',
+															notes = '".$postnotes."',
 															serialNumber = '".$postserialNumber."'
 															WHERE iditem = '".$postiditem."'";
 									// ================================== LOGGING
@@ -273,6 +343,7 @@
 							                    				Item Name 		: ".$postname."
 							                    				Category 		: ".$categoryPost."
 							                    				S/N 			: ".$postserialNumber."
+							                    				NOtes 			: ".$postnotes."
 							                    				";
 											}
 										}
