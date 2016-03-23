@@ -22,6 +22,34 @@ function logging($date, $user, $action, $value, $iditem){
 }
 
 // ==============================================================================================================================
+// -------------------------------------------------- LOGIN ----------------------------------------------
+// ==============================================================================================================================
+
+if(isset($_POST['btnLogin'])){
+        $postUsername = $_POST['loginUsername'];
+        $postPassword = $_POST['loginPassword'];
+
+        $loginQry = "SELECT * FROM admin WHERE username = '".$postUsername."' AND password = '".$postPassword."' LIMIT 1";
+        if($resultLogin = mysql_query($loginQry)){
+            if (mysql_num_rows($resultLogin) != 0) {
+                $rowLogin = mysql_fetch_array($resultLogin);
+                $_SESSION['login']      = 'logged';
+                $_SESSION['name']       = $rowLogin['name'];
+                $_SESSION['privilege']  = $rowLogin['privilege'];
+                $_SESSION['idadmin']    = $rowLogin['idadmin'];
+                $_SESSION['username']   = $rowLogin['username'];
+
+                $logingContentText = "Username : ".$rowLogin['username']."<br>Name : ".$rowLogin['name'];
+                logging($now, $postUsername, "User Login Success", $logingContentText, $rowLogin['idadmin']);
+                header('Location: ./');
+            }else{
+                $_SESSION['login']  = 'notlogged';
+                alertBox('Username atau Password Salah..');
+            }
+        }
+    }
+
+// ==============================================================================================================================
 // -------------------------------------------------- ITEM ----------------------------------------------
 // ==============================================================================================================================
 
@@ -370,22 +398,31 @@ if(isset($_POST['trxOutSubmit'])){
 // ============================================= INGOING TRANSACTION
 if(isset($_POST['trxInSubmit'])){
     $postIdInventory    = $_POST['trxInIdInventory'];
-    $postUser           = $_POST['iduserTrxIn'];
-    $postNotes           = $_POST['updateStatus'];
+    $postNotes          = $_POST['updateStatus'];
 
+    $lastQry = "";
+    $lastQry = "SELECT user.name as name FROM item, user WHERE item.iduser = user.iduser AND item.idinventory = '".$postIdInventory."' LIMIT 1";
+    if($resultLast = mysql_query($lastQry)){
+        if (mysql_num_rows($resultLast) > 0) {
+            $rowLast = mysql_fetch_array($resultLast);
+            $postLastUser = $rowLast['name'];
+        }else{
+            $postLastUser = 0;
+        }
+    }
 
     $updateItemOutQry = "";
     $updateItemOutQry = "UPDATE item SET
                             dateIn = NOW(),
                             status = 'Stock',
                             iduser = '0',
-                            lastIdUser = '".$postUser."',
+                            lastIdUser = '".$postLastUser."',
                             notes = '".$postNotes."'
                         WHERE idinventory = '".$postIdInventory."'";
 
     $loggingText = "Date In : ".date("Y-m-d")."
                     ID Inventory : ".$postIdInventory."
-                    User : ".$postUser."
+                    Last User : ".$postLastUser."
                     Notes : ".$postNotes."
                     ";
 

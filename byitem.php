@@ -2,14 +2,6 @@
 	<div class="col s12 grey lighten-2 mb-30">
 		<h3 class="left-align">Rekapitulasi by Items</h3>
 	</div>
-	<div class="input-field col s6 m3 l3">
-		<select id="trxOutIdInventory" name="trxOutIdInventory">
-			<option value="" disabled selected>Pilih Transaksi</option>
-			<option value="trxOut">Transaksi Keluar Item</option>
-			<option value="trxIn">Transaksi Masuk Item</option>
-		</select>
-		<label>Transaksi</label>
-	</div>
 	<div class="col s12">
 		<table class="striped responsive-table col s12">
 			<thead>
@@ -152,97 +144,5 @@
 				?>
 			</tbody>
 		</table>
-	</div>
-</div>
-<div id="trxOut" class="modal">
-	<div class="modal-content">
-		<div class="border-bottom mb-10"><h4>Transaksi Keluar Barang</h4></div>
-		<div class="col s12">
-			<form action="#" method="post" enctype="multipart/form-data">
-				<div class="input-field col s12 m6 l6">
-					<select id="trxOutIdInventory" name="trxOutIdInventory">
-						<option value="" disabled selected>Pilih ID Inventory</option>
-						<?php
-							$invQry = "";
-							$invQry = "SELECT idinventory FROM item WHERE status = 'Stock' ORDER BY idinventory ASC";
-							if($resultInv = mysql_query($invQry)){
-								if (mysql_num_rows($resultInv) > 0) {
-									while ($rowInv = mysql_fetch_array($resultInv)) {
-										$idInventoryTrxOut 	= $rowInv['idinventory'];
-										?>
-											<option value="<?php echo $idInventoryTrxOut; ?>"><?php echo $idInventoryTrxOut; ?></option>
-										<?php
-									}
-								}
-							}
-						?>
-					</select>
-					<label>ID Inventory</label>
-				</div>
-				<div class="input-field col s12 m6 l6">
-					<select id="trxOutUser" name="trxOutUser">
-						<option value="" disabled selected>Pilih User</option>
-						<?php
-							$userQry = "";
-							$userQry = "SELECT iduser, name FROM user WHERE name != '' ORDER BY name ASC";
-							if($resultUser = mysql_query($userQry)){
-								if (mysql_num_rows($resultUser) > 0) {
-									while ($rowUser = mysql_fetch_array($resultUser)) {
-										$idUserTrxOut 	= $rowUser['iduser'];
-										$nameTrxOut 	= $rowUser['name'];
-										?>
-											<option value="<?php echo $idUserTrxOut; ?>"><?php echo $nameTrxOut; ?></option>
-										<?php
-									}
-								}
-							}
-						?>
-					</select>
-					<label>User</label>
-				</div>
-				<div class="input-field col s12">
-					<button type="submit" name="trxOutSubmit" class="waves-effect waves-light btn green darken-4 right mb-20">Submit</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-<div id="trxIn" class="modal">
-	<div class="modal-content">
-		<div class="border-bottom mb-10"><h4>Transaksi Keluar Barang</h4></div>
-		<div class="col s12">
-			<form action="#" method="post" enctype="multipart/form-data">
-				<div class="input-field col s12 m6 l6">
-					<select id="trxInIdInventory" name="trxInIdInventory">
-						<option value="" disabled selected>Pilih ID Inventory</option>
-						<?php
-							$invQry = "";
-							$invQry = "SELECT iduser, idinventory FROM item WHERE status != 'Stock' ORDER BY idinventory ASC";
-							if($resultInv = mysql_query($invQry)){
-								if (mysql_num_rows($resultInv) > 0) {
-									while ($rowInv = mysql_fetch_array($resultInv)) {
-										$idInventoryTrxIn 	= $rowInv['idinventory'];
-										$iduserTrxIn 		= $rowInv['iduser'];
-										?>
-											<option value="<?php echo $idInventoryTrxIn; ?>"><?php echo $idInventoryTrxIn; ?></option>
-										<?php
-									}
-								}
-							}
-						?>
-					</select>
-					<label>ID Inventory</label>
-				</div>
-				<div class="file-field input-field col s12 m6 l6">
-					<input id="updateStatus" name="updateStatus" type="text" class="validate" required>
-					<label for="updateStatus">Catatan</label>
-				</div>
-				<div class="input-field col s12">
-					<input type="hidden" value="<?php echo $iduserTrxIn; ?>" name="iduserTrxIn">
-					<button type="submit" name="trxInSubmit" class="waves-effect waves-light btn green darken-4 right mb-20">Submit</button>
-				</div>
-			</form>
-		</div>
 	</div>
 </div>

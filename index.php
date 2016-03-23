@@ -53,7 +53,7 @@ foreach($_POST as $key => $val) {
 				<nav class="grey darken-3">
 					<div class="nav-wrapper navbar-fixed grey darken-3 valign-wrapper left-menu">
 							<?php
-								if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged' && $_SESSION['privilege'] == '1'){
+								if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
 									?>
 										<a href="#" data-activates="side-menu" class="button-collapse left ml-30"><i class="menu-side-icon material-icons">menu</i></a>
 									<?php
@@ -64,27 +64,25 @@ foreach($_POST as $key => $val) {
 					</div>
 				</nav>
 			</div>
-		  	<?php
-		  		if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
-		  			$name = $_SESSION['name'];
-		  			?>
-						<ul id="side-menu" class="side-nav fixed">
-							<li class="bold valign-wrapper" disabled>Hi, <?php echo $name;?></li>
-							<li class="divider"></li>
+			<ul id="side-menu" class="side-nav fixed">
+				<li class="bold no-padding" <?php echo ($menu == 'rekap')? "active" : "";?>>
+					<ul class="collapsible" data-colapsible="accordion">
+					  <li class=" <?php echo ($menu == 'rekap')? "active" : "";?>">
+					    <a class="collapsible-header <?php echo ($menu == 'rekap')? "active" : "";?>"><i class="menu-side-icon material-icons left">content_paste</i>Rekapitulasi</a>
+					    <div class="collapsible-body">
+					      <ul>
+					        <li class="bold <?php echo ($menu == 'rekap' && $cat == 'item')? "active" : "";?>"><a href="./index.php?menu=rekap&cat=item">By Items</a></li>
+					        <li class="bold <?php echo ($menu == 'rekap' && $cat == 'user')? "active" : "";?>"><a href="./index.php?menu=rekap&cat=user">By User</a></li>
+					      </ul>
+					    </div>
+					  </li>
+					</ul>
+				</li>
+			  	<?php
+			  		if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
+			  			$name = $_SESSION['name'];
+			  			?>
 							<li class="bold <?php echo ($menu == 'item')? "active" : "";?>"><a href="./index.php?menu=item"><i class="menu-side-icon material-icons mt-20 left">laptop</i>Item</a></li>
-							<li class="bold no-padding" <?php echo ($menu == 'rekap')? "active" : "";?>>
-								<ul class="collapsible" data-colapsible="accordion">
-								  <li class=" <?php echo ($menu == 'rekap')? "active" : "";?>">
-								    <a class="collapsible-header <?php echo ($menu == 'rekap')? "active" : "";?>"><i class="menu-side-icon material-icons left">content_paste</i>Rekapitulasi</a>
-								    <div class="collapsible-body">
-								      <ul>
-								        <li class="bold <?php echo ($menu == 'rekap' && $cat == 'item')? "active" : "";?>"><a href="./index.php?menu=rekap&cat=item">By Items</a></li>
-								        <li class="bold <?php echo ($menu == 'rekap' && $cat == 'user')? "active" : "";?>"><a href="./index.php?menu=rekap&cat=user">By User</a></li>
-								      </ul>
-								    </div>
-								  </li>
-								</ul>
-							</li>
 							<li class="bold <?php echo ($menu == 'user')? "active" : "";?>"><a href="./index.php?menu=user"><i class="menu-side-icon material-icons mt-20 left">person</i>User</a></li>
 							<?php
 								if($_SESSION['privilege'] == '1'){
@@ -95,54 +93,87 @@ foreach($_POST as $key => $val) {
 								}
 							?>
 							<li class="divider"></li>
-							<li class="bold"><a href="./index.php?menu=logout"><i class="menu-side-icon material-icons mt-20 left">power_settings_new</i>Logout</a></li>
-						</ul>
-					<?php
-				}else{
-			    	include 'login.php';
-			    }
-			?>
+							<li class="bold"><a href="./index.php?menu=logout"><i class="menu-side-icon material-icons mt-20 left">power_settings_new</i>Logout [<?php echo $name;?>]</a></li>
+						<?php
+					}else{
+						?>
+							<li class="divider"></li>
+							<li class="bold"><a href="#modalLogin" class="modal-trigger"><i class="menu-side-icon material-icons mt-20 left">power_settings_new</i>Login</a></li>
+						<?php
+					}
+				?>
+			</ul>
 		</header>
     <main>
     	<div class="menu-admin">
 		    <?php
-		  		if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
-					switch ($menu) {
-						case 'log':
-							include 'log.php';
-							break;
+				switch ($menu) {
+					case 'log':
+						include 'log.php';
+						break;
 
-						case 'item':
-							include 'item.php';
-							break;
+					case 'item':
+						include 'item.php';
+						break;
 
-						case 'rekap':
-							include 'rekap.php';
-							break;
+					case 'rekap':
+						include 'rekap.php';
+						break;
 
-						case 'trx':
-							include 'trx.php';
-							break;
+					case 'trx':
+						include 'trx.php';
+						break;
 
-						case 'user':
-							include 'user.php';
-							break;
+					case 'user':
+						include 'user.php';
+						break;
 
-						case 'logout':
-							include 'logout.php';
-							break;
+					case 'logout':
+						include 'logout.php';
+						break;
 
-						case 'admin':
-							include 'admin.php';
-							break;
+					case 'login':
+						include 'login.php';
+						break;
 
-						default:
-							include 'akumulasi.php';
-							break;
-			        }
-			    }
+					case 'admin':
+						include 'admin.php';
+						break;
+
+					default:
+						include 'akumulasi.php';
+						break;
+		        }
 		    ?>
     	</div>
+    	<!-- ============== modal login -->
+		<div id="modalLogin" class="modal">
+			<div class="modal-content">
+				<div class="row">
+					<div class="col s12">
+						<form action="#" method="post" enctype="multipart/form-data">
+							<div class="col s12 blue-text text-darken-4 center hide-on-med-and-up mt-20">
+								<h5>CERMATI INVENTORY</h5>
+							</div>
+							<div class="col s12 center">
+								<h4>LOGIN</h4>
+							</div>
+							<div class="input-field col s12">
+								<input id="loginUsername" name="loginUsername" type="text" class="validate" required>
+								<label for="loginUsername">Username</label>
+							</div>
+							<div class="input-field col s12">
+								<input id="loginPassword" name="loginPassword" type="password" class="validate" required>
+								<label for="loginPassword">Password</label>
+							</div>
+							<div class="input-field col s12">
+								<button type="submit" name="btnLogin" class="waves-effect waves-light btn black right"><i class="material-icons left">send</i>Login</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
     </main>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
