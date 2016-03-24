@@ -510,7 +510,7 @@
 					</div>
 					<form action="#" method="post" enctype="multipart/form-data">
 						<div class="file-field input-field col s12 m6 l6">
-							<input id="addCatName" name="addCatName" type="text" class="validate" required>
+							<input id="addCatName" name="addCatName" type="text" class="validate">
 							<label for="addCatName">Nama Janis Item Baru</label>
 						</div>
 						<div class="input-field col s12 mb-20">
@@ -612,7 +612,7 @@
 					<label>ID Inventory</label>
 				</div>
 				<div class="file-field input-field col s12 m6 l6">
-					<input id="updateStatus" name="updateStatus" type="text" class="validate" required>
+					<input id="updateStatus" name="updateStatus" type="text" class="validate">
 					<label for="updateStatus">Catatan</label>
 				</div>
 				<div class="input-field col s12">

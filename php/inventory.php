@@ -194,29 +194,32 @@ if(isset($_POST['btnDelCat'])){
 // ============================================= ADD NEW CATEGORY
 if(isset($_POST['addCategoryButton'])){
     $postaddName    = $_POST['addCatName'];
+    if(!empty($postaddName){
+        $idCategoryQry = "";
+        $idCategoryQry = "SELECT count(idcategory) as countId FROM category WHERE name = '".$postaddName."'";
+        if($resultIdCategory = mysql_query($idCategoryQry)){
+            if (mysql_num_rows($resultIdCategory) > 0) {
+                $rowIdCategory = mysql_fetch_array($resultIdCategory);
+                if ($rowIdCategory['countId'] == 0) {
+                    $addNewCategoryQry = "";
+                    $addNewCategoryQry = "INSERT INTO category (name) VALUES ('".$postaddName."')";
 
-    $idCategoryQry = "";
-    $idCategoryQry = "SELECT count(idcategory) as countId FROM category WHERE name = '".$postaddName."'";
-    if($resultIdCategory = mysql_query($idCategoryQry)){
-        if (mysql_num_rows($resultIdCategory) > 0) {
-            $rowIdCategory = mysql_fetch_array($resultIdCategory);
-            if ($rowIdCategory['countId'] == 0) {
-                $addNewCategoryQry = "";
-                $addNewCategoryQry = "INSERT INTO category (name) VALUES ('".$postaddName."')";
+                    $loggingText = "Category Name : ".$postaddName."";
 
-                $loggingText = "Category Name : ".$postaddName."";
-
-                if(mysql_query($addNewCategoryQry)){
-                    $LastId = mysql_insert_id($conn);
-                    logging($now, $user, "Add New Category", $loggingText, $LastId);
-                    header('Location: ./index.php?menu=item');
+                    if(mysql_query($addNewCategoryQry)){
+                        $LastId = mysql_insert_id($conn);
+                        logging($now, $user, "Add New Category", $loggingText, $LastId);
+                        header('Location: ./index.php?menu=item');
+                    }else{
+                        alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+                    }
                 }else{
-                    alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+                    alertBox("Category sudah ada..!!!");
                 }
-            }else{
-                alertBox("Category sudah ada..!!!");
             }
         }
+    }else{
+        alertBox("Data tidak boleh kosong..!!!");
     }
 }
 
@@ -373,25 +376,28 @@ if(isset($_POST['addDivisionButton'])){
 if(isset($_POST['trxOutSubmit'])){
     $postIdInventory    = $_POST['trxOutIdInventory'];
     $postUser           = $_POST['trxOutUser'];
+    if(!empty($postIdInventory) && !empty($postUser)){
+        $updateItemOutQry = "";
+        $updateItemOutQry = "UPDATE item SET
+                                dateOut = NOW(),
+                                status = 'Used Up',
+                                iduser = '".$postUser."',
+                                notes = ''
+                            WHERE idinventory = '".$postIdInventory."'";
 
-    $updateItemOutQry = "";
-    $updateItemOutQry = "UPDATE item SET
-                            dateOut = NOW(),
-                            status = 'Used Up',
-                            iduser = '".$postUser."',
-                            notes = ''
-                        WHERE idinventory = '".$postIdInventory."'";
+        $loggingText = "Date Out : '".date("Y-m-d")."'
+                        ID Inventory : ".$postIdInventory."
+                        User : ".$postUser."
+                        ";
 
-    $loggingText = "Date Out : '".date("Y-m-d")."'
-                    ID Inventory : ".$postIdInventory."
-                    User : ".$postUser."
-                    ";
-
-    if(mysql_query($updateItemOutQry)){
-        logging($now, $user, "Outgoing Item Transaction", $loggingText, $postIdInventory);
-        header('Location: ./index.php?menu=rekap&cat=item');
+        if(mysql_query($updateItemOutQry)){
+            logging($now, $user, "Outgoing Item Transaction", $loggingText, $postIdInventory);
+            header('Location: ./index.php?menu=rekap&cat=item');
+        }else{
+            alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+        }
     }else{
-        alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+        alertBox("Data tidak boleh kosong..!!")
     }
 }
 
@@ -399,39 +405,42 @@ if(isset($_POST['trxOutSubmit'])){
 if(isset($_POST['trxInSubmit'])){
     $postIdInventory    = $_POST['trxInIdInventory'];
     $postNotes          = $_POST['updateStatus'];
-
-    $lastQry = "";
-    $lastQry = "SELECT user.name as name, item.iduser as iduser FROM item, user WHERE item.iduser = user.iduser AND item.idinventory = '".$postIdInventory."' LIMIT 1";
-    if($resultLast = mysql_query($lastQry)){
-        if (mysql_num_rows($resultLast) > 0) {
-            $rowLast = mysql_fetch_array($resultLast);
-            $postLastUser   = $rowLast['name'];
-            $postLastIdUser = $rowLast['iduser'];
-        }else{
-            $postLastUser = 0;
+    if(!empty($postIdInventory) && !empty($postNotes)){
+        $lastQry = "";
+        $lastQry = "SELECT user.name as name, item.iduser as iduser FROM item, user WHERE item.iduser = user.iduser AND item.idinventory = '".$postIdInventory."' LIMIT 1";
+        if($resultLast = mysql_query($lastQry)){
+            if (mysql_num_rows($resultLast) > 0) {
+                $rowLast = mysql_fetch_array($resultLast);
+                $postLastUser   = $rowLast['name'];
+                $postLastIdUser = $rowLast['iduser'];
+            }else{
+                $postLastUser = 0;
+            }
         }
-    }
 
-    $updateItemOutQry = "";
-    $updateItemOutQry = "UPDATE item SET
-                            dateIn = NOW(),
-                            status = 'Stock',
-                            iduser = '0',
-                            lastIdUser = '".$postLastIdUser."',
-                            notes = '".$postNotes."'
-                        WHERE idinventory = '".$postIdInventory."'";
+        $updateItemOutQry = "";
+        $updateItemOutQry = "UPDATE item SET
+                                dateIn = NOW(),
+                                status = 'Stock',
+                                iduser = '0',
+                                lastIdUser = '".$postLastIdUser."',
+                                notes = '".$postNotes."'
+                            WHERE idinventory = '".$postIdInventory."'";
 
-    $loggingText = "Date In : ".date("Y-m-d")."
-                    ID Inventory : ".$postIdInventory."
-                    Last User : ".$postLastUser."
-                    Notes : ".$postNotes."
-                    ";
+        $loggingText = "Date In : ".date("Y-m-d")."
+                        ID Inventory : ".$postIdInventory."
+                        Last User : ".$postLastUser."
+                        Notes : ".$postNotes."
+                        ";
 
-    if(mysql_query($updateItemOutQry)){
-        logging($now, $user, "Ingoing Item Transaction", $loggingText, $postIdInventory);
-        header('Location: ./index.php?menu=rekap&cat=item');
+        if(mysql_query($updateItemOutQry)){
+            logging($now, $user, "Ingoing Item Transaction", $loggingText, $postIdInventory);
+            header('Location: ./index.php?menu=rekap&cat=item');
+        }else{
+            alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+        }
     }else{
-        alertBox("ERROR: Could not able to execute " . mysql_error($conn));
+        alertBox("Data tidak boleh kosong..!!")
     }
 }
 ?>
