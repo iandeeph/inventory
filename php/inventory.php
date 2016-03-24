@@ -401,11 +401,12 @@ if(isset($_POST['trxInSubmit'])){
     $postNotes          = $_POST['updateStatus'];
 
     $lastQry = "";
-    $lastQry = "SELECT user.name as name FROM item, user WHERE item.iduser = user.iduser AND item.idinventory = '".$postIdInventory."' LIMIT 1";
+    $lastQry = "SELECT user.name as name, item.iduser as iduser FROM item, user WHERE item.iduser = user.iduser AND item.idinventory = '".$postIdInventory."' LIMIT 1";
     if($resultLast = mysql_query($lastQry)){
         if (mysql_num_rows($resultLast) > 0) {
             $rowLast = mysql_fetch_array($resultLast);
-            $postLastUser = $rowLast['name'];
+            $postLastUser   = $rowLast['name'];
+            $postLastIdUser = $rowLast['iduser'];
         }else{
             $postLastUser = 0;
         }
@@ -416,7 +417,7 @@ if(isset($_POST['trxInSubmit'])){
                             dateIn = NOW(),
                             status = 'Stock',
                             iduser = '0',
-                            lastIdUser = '".$postLastUser."',
+                            lastIdUser = '".$postLastIdUser."',
                             notes = '".$postNotes."'
                         WHERE idinventory = '".$postIdInventory."'";
 
