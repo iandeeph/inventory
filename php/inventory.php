@@ -194,7 +194,7 @@ if(isset($_POST['btnDelCat'])){
 // ============================================= ADD NEW CATEGORY
 if(isset($_POST['addCategoryButton'])){
     $postaddName    = $_POST['addCatName'];
-    if(!empty($postaddName){
+    if(!empty($postaddName)){
         $idCategoryQry = "";
         $idCategoryQry = "SELECT count(idcategory) as countId FROM category WHERE name = '".$postaddName."'";
         if($resultIdCategory = mysql_query($idCategoryQry)){
@@ -397,7 +397,7 @@ if(isset($_POST['trxOutSubmit'])){
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }
     }else{
-        alertBox("Data tidak boleh kosong..!!")
+        alertBox("Data tidak boleh kosong..!!");
     }
 }
 
@@ -440,7 +440,7 @@ if(isset($_POST['trxInSubmit'])){
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }
     }else{
-        alertBox("Data tidak boleh kosong..!!")
+        alertBox("Data tidak boleh kosong..!!");
     }
 }
 ?>
