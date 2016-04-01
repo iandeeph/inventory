@@ -15,9 +15,35 @@
 						<?php
 					}
 				?>
-				<a href="#modalAddItem" class="modal-trigger btn-floating btn-large waves-effect waves-light green darken-4 right"><i class="material-icons">add</i></a>
+				<a href="#modalAddItem" id="addNewItem" class="modal-trigger btn-floating btn-large waves-effect waves-light green darken-4 right hide"><i class="material-icons">add</i></a>
+				<div class="preloader-wrapper small active right" id="loaderAddItem">
+					<div class="spinner-layer spinner-green-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div>
+						<div class="gap-patch">
+							<div class="circle"></div>
+						</div>
+						<div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="input-field col s6 m3 l3">
+			<div id="loaderTrxItem" class="preloader-wrapper small active">
+				<div class="spinner-layer spinner-green-only">
+					<div class="circle-clipper left">
+						<div class="circle"></div>
+					</div>
+					<div class="gap-patch">
+						<div class="circle"></div>
+					</div>
+					<div class="circle-clipper right">
+						<div class="circle"></div>
+					</div>
+				</div>
+			</div>
+			<div class="input-field col s6 m3 l3 hide" id="trxItem">
 				<select id="trxOutIdInventory" name="trxOutIdInventory">
 					<option value="" disabled selected>Pilih Transaksi</option>
 					<option value="trxOut">Transaksi Keluar Item</option>

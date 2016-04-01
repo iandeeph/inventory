@@ -18,6 +18,8 @@ function checkPasswordMatch() {
 }
 
 $(document).ready(function() {
+    $("#trxItem, #addNewItem").removeClass("hide");
+    $("#loaderAddItem, #loaderTrxItem").removeClass("active");
     $(".dropdown-button").dropdown();$('.collapsible').collapsible({
         accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
@@ -43,6 +45,7 @@ $(document).ready(function() {
     $('.slider').slider({full_width: false});
     $('select').material_select();
     $('.carousel').carousel();
+
 });
 
 tinymce.init({
