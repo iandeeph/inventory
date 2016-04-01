@@ -392,7 +392,7 @@ if(isset($_POST['trxOutSubmit'])){
 
         if(mysql_query($updateItemOutQry)){
             logging($now, $user, "Outgoing Item Transaction", $loggingText, $postIdInventory);
-            header('Location: ./index.php?menu=rekap&cat=item');
+            header('Location: ./index.php?menu=item');
         }else{
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }
@@ -435,7 +435,7 @@ if(isset($_POST['trxInSubmit'])){
 
         if(mysql_query($updateItemOutQry)){
             logging($now, $user, "Ingoing Item Transaction", $loggingText, $postIdInventory);
-            header('Location: ./index.php?menu=rekap&cat=item');
+            header('Location: ./index.php?menu=item');
         }else{
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }

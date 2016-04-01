@@ -84,12 +84,15 @@
 															<th width="7%" data-field="status">
 																Status
 															</th>
+															<th width="10%" data-field="notes">
+																Catatan
+															</th>
 														</tr>
 													</thead>
 													<tbody>
 														<?php
 														    $idInventoryQry = "";
-															$idInventoryQry = "SELECT idcategory, name, serialNUmber, idinventory, status FROM item WHERE status = 'Stock' AND idcategory = '".$idcat."'";
+															$idInventoryQry = "SELECT idcategory, name, serialNUmber, idinventory, status, notes FROM item WHERE status = 'Stock' AND idcategory = '".$idcat."'";
 															if($resulIdInventory = mysql_query($idInventoryQry)){
 																if (mysql_num_rows($resulIdInventory) > 0) {
 																	$no=1;
@@ -98,6 +101,7 @@
 																		$name 			= $rowIdInventory['name'];
 																		$serialNumber 	= $rowIdInventory['serialNUmber'];
 																		$status 		= $rowIdInventory['status'];
+																		$notes 			= $rowIdInventory['notes'];
 
 																		echo "<tr>";
 																		echo "<td>".$no."</td>";
@@ -106,6 +110,7 @@
 																		echo "<td>".$name."</td>";
 																		echo "<td>".$serialNumber."</td>";
 																		echo "<td>".$status."</td>";
+																		echo "<td>".$notes."</td>";
 																		echo "</tr>";
 																		$no++;
 																	}
