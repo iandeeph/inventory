@@ -1,10 +1,31 @@
 <?php
 $menu = isset($_GET['menu'])?$_GET['menu']:'';
 $cat = isset($_GET['cat'])?$_GET['cat']:'';
+$detail = isset($_GET['detail'])?$_GET['detail']:'';
 $user = isset($_SESSION['name'])?$_SESSION['name']:'';
 $postMessages = isset($postMessages)?$postMessages:'';
 $colorMessages = isset($colorMessages)?$colorMessages:'';
 $now = date("Y-m-d H:i:s");
+
+if ($detail == "A") {
+    $itemCategory = "Laptop";
+}elseif ($detail == "B") {
+    $itemCategory = "Keyboard";
+}elseif ($detail == "C") {
+    $itemCategory = "Mouse";
+}elseif ($detail == "D") {
+    $itemCategory = "Monitor";
+}elseif ($detail == "E") {
+    $itemCategory = "Adaptor Laptop";
+}elseif ($detail == "F") {
+    $itemCategory = "Headphone";
+}elseif ($detail == "H") {
+    $itemCategory = "Handphone";
+}elseif ($detail == "K") {
+    $itemCategory = "Kunci Kantor";
+}else{
+    $itemCategory = "Item tidak ada";
+}
 
 function alertBox($msg) {
     echo '<script type="text/javascript">alert("' . $msg . '")</script>';
@@ -26,28 +47,28 @@ function logging($date, $user, $action, $value, $iditem){
 // ==============================================================================================================================
 
 if(isset($_POST['btnLogin'])){
-        $postUsername = $_POST['loginUsername'];
-        $postPassword = $_POST['loginPassword'];
+    $postUsername = $_POST['loginUsername'];
+    $postPassword = $_POST['loginPassword'];
 
-        $loginQry = "SELECT * FROM admin WHERE username = '".$postUsername."' AND password = '".$postPassword."' LIMIT 1";
-        if($resultLogin = mysql_query($loginQry)){
-            if (mysql_num_rows($resultLogin) != 0) {
-                $rowLogin = mysql_fetch_array($resultLogin);
-                $_SESSION['login']      = 'logged';
-                $_SESSION['name']       = $rowLogin['name'];
-                $_SESSION['privilege']  = $rowLogin['privilege'];
-                $_SESSION['idadmin']    = $rowLogin['idadmin'];
-                $_SESSION['username']   = $rowLogin['username'];
+    $loginQry = "SELECT * FROM admin WHERE username = '".$postUsername."' AND password = '".$postPassword."' LIMIT 1";
+    if($resultLogin = mysql_query($loginQry)){
+        if (mysql_num_rows($resultLogin) != 0) {
+            $rowLogin = mysql_fetch_array($resultLogin);
+            $_SESSION['login']      = 'logged';
+            $_SESSION['name']       = $rowLogin['name'];
+            $_SESSION['privilege']  = $rowLogin['privilege'];
+            $_SESSION['idadmin']    = $rowLogin['idadmin'];
+            $_SESSION['username']   = $rowLogin['username'];
 
-                $logingContentText = "Username : ".$rowLogin['username']."<br>Name : ".$rowLogin['name'];
-                logging($now, $postUsername, "User Login Success", $logingContentText, $rowLogin['idadmin']);
-                header('Location: ./');
-            }else{
-                $_SESSION['login']  = 'notlogged';
-                alertBox('Username atau Password Salah..');
-            }
+            $logingContentText = "Username : ".$rowLogin['username']."<br>Name : ".$rowLogin['name'];
+            logging($now, $postUsername, "User Login Success", $logingContentText, $rowLogin['idadmin']);
+            header('Location: ./');
+        }else{
+            $_SESSION['login']  = 'notlogged';
+            alertBox('Username atau Password Salah..');
         }
     }
+}
 
 // ==============================================================================================================================
 // -------------------------------------------------- ITEM ----------------------------------------------

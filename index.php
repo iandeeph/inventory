@@ -113,7 +113,7 @@ foreach($_POST as $key => $val) {
 						break;
 
 					case 'item':
-						include 'item.php';
+						include 'home-item.php';
 						break;
 
 					case 'rekap':
