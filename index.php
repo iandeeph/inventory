@@ -107,17 +107,22 @@ foreach($_POST as $key => $val) {
     <main>
     	<div class="menu-admin">
 		    <?php
+		    if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
 				switch ($menu) {
+					case 'rekap':
+						include 'rekap.php';
+						break;
+
+					case 'login':
+						include 'login.php';
+						break;
+
 					case 'log':
 						include 'log.php';
 						break;
 
 					case 'item':
 						include 'home-item.php';
-						break;
-
-					case 'rekap':
-						include 'rekap.php';
 						break;
 
 					case 'trx':
@@ -132,10 +137,6 @@ foreach($_POST as $key => $val) {
 						include 'logout.php';
 						break;
 
-					case 'login':
-						include 'login.php';
-						break;
-
 					case 'admin':
 						include 'admin.php';
 						break;
@@ -144,6 +145,21 @@ foreach($_POST as $key => $val) {
 						include 'akumulasi.php';
 						break;
 		        }
+		    }else{
+			    switch ($menu) {
+					case 'rekap':
+						include 'rekap.php';
+						break;
+
+					case 'login':
+						include 'login.php';
+						break;
+
+					default:
+						include 'akumulasi.php';
+						break;
+				}	
+		    }
 		    ?>
     	</div>
     	<!-- ============== modal login -->
