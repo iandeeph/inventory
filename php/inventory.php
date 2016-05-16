@@ -9,21 +9,30 @@ $now = date("Y-m-d H:i:s");
 
 if ($detail == "A") {
     $itemCategory = "Laptop";
+    $idCat = 1;
 }elseif ($detail == "B") {
+    $idCat = 2;
     $itemCategory = "Keyboard";
 }elseif ($detail == "C") {
+    $idCat = 3;
     $itemCategory = "Mouse";
 }elseif ($detail == "D") {
+    $idCat = 4;
     $itemCategory = "Monitor";
 }elseif ($detail == "E") {
+    $idCat = 5;
     $itemCategory = "Adaptor Laptop";
 }elseif ($detail == "F") {
+    $idCat = 8;
     $itemCategory = "Headphone";
 }elseif ($detail == "H") {
+    $idCat = 9;
     $itemCategory = "Handphone";
 }elseif ($detail == "K") {
+    $idCat = 7;
     $itemCategory = "Kunci Kantor";
 }else{
+    $idCat = "";
     $itemCategory = "Item tidak ada";
 }
 
@@ -119,14 +128,14 @@ if(isset($_POST['addItemButton'])){
                             $name           = $rowLogUser['name'];
                             $division     = $rowLogUser['division'];
 
-                            $loggingText = "ID Inventory : ".$postIdInventory."
-                                            Item Name : ".$postItemName."
-                                            Category : ".$category."
-                                            S/N : ".$postItemSN."
-                                            To User : ".$name." - ".$division."";
                         }
                     }
                 }
+                $loggingText = "ID Inventory : ".$postIdInventory."
+                                Item Name : ".$postItemName."
+                                Category : ".$category."
+                                S/N : ".$postItemSN."
+                                To User : ".$name." - ".$division."";
 
 				if(mysql_query($addNewItemQry)){
 					$LastId = mysql_insert_id($conn);
