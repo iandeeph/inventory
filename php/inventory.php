@@ -131,7 +131,7 @@ if(isset($_POST['addItemButton'])){
 				if(mysql_query($addNewItemQry)){
 					$LastId = mysql_insert_id($conn);
 					logging($now, $user, "Add New Item", $loggingText, $LastId);
-			        header('Location: ./index.php?menu=item');
+			        header('Location: ./index.php?menu=item&detail='.$detail);
 			    }else{
 			    	echo "ERROR: Could not able to execute ".$addNewItemQry.". " . mysql_error($conn);
 			    }
@@ -230,7 +230,7 @@ if(isset($_POST['addCategoryButton'])){
                     if(mysql_query($addNewCategoryQry)){
                         $LastId = mysql_insert_id($conn);
                         logging($now, $user, "Add New Category", $loggingText, $LastId);
-                        header('Location: ./index.php?menu=item');
+                        header('Location: ./index.php?menu=item&detail='.$detail);
                     }else{
                         alertBox("ERROR: Could not able to execute " . mysql_error($conn));
                     }
@@ -413,7 +413,7 @@ if(isset($_POST['trxOutSubmit'])){
 
         if(mysql_query($updateItemOutQry)){
             logging($now, $user, "Outgoing Item Transaction", $loggingText, $postIdInventory);
-            header('Location: ./index.php?menu=item');
+            header('Location: ./index.php?menu=item&detail='.$detail);
         }else{
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }
@@ -456,7 +456,7 @@ if(isset($_POST['trxInSubmit'])){
 
         if(mysql_query($updateItemOutQry)){
             logging($now, $user, "Ingoing Item Transaction", $loggingText, $postIdInventory);
-            header('Location: ./index.php?menu=item');
+            header('Location: ./index.php?menu=item&detail='.$detail);
         }else{
             alertBox("ERROR: Could not able to execute " . mysql_error($conn));
         }

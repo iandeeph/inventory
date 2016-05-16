@@ -135,7 +135,7 @@
 										$dateIn2		= $rowItem['dateIn'];
 										$status 		= $rowItem['status'];
 										$iduser 		= $rowItem['iduser'];
-										$notes 		= $rowItem['notes'];
+										$notes 			= $rowItem['notes'];
 
 										$catQry = "";
 										$catQry = "SELECT name FROM category WHERE idcategory = '".$idcategory."'";
@@ -202,7 +202,7 @@
 																					</thead>
 																					<tbody>
 																						<tr>
-																							<td><?php echo $name; ?></td>
+																							<td><?php echo $nameUser; ?></td>
 																							<td><?php echo $division; ?></td>
 																						</tr>
 																					</tbody>
