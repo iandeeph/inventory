@@ -84,6 +84,9 @@
 															<th width="7%" data-field="status">
 																Status
 															</th>
+															<th width="7%" data-field="lastUser">
+																Last User
+															</th>
 															<th width="10%" data-field="notes">
 																Catatan
 															</th>
@@ -92,7 +95,7 @@
 													<tbody>
 														<?php
 														    $idInventoryQry = "";
-															$idInventoryQry = "SELECT idcategory, name, serialNUmber, idinventory, status, notes FROM item WHERE status = 'Stock' AND idcategory = '".$idcat."'";
+															$idInventoryQry = "SELECT idcategory, name, serialNUmber, idinventory, lastIdUser, status, notes FROM item WHERE status = 'Stock' AND idcategory = '".$idcat."'";
 															if($resulIdInventory = mysql_query($idInventoryQry)){
 																if (mysql_num_rows($resulIdInventory) > 0) {
 																	$no=1;
@@ -100,8 +103,20 @@
 																		$idInventory 	= $rowIdInventory['idinventory'];
 																		$name 			= $rowIdInventory['name'];
 																		$serialNumber 	= $rowIdInventory['serialNUmber'];
+																		$lastIdUser 	= $rowIdInventory['lastIdUser'];
 																		$status 		= $rowIdInventory['status'];
 																		$notes 			= $rowIdInventory['notes'];
+
+																		$userLastQry = "";
+																		$userLastQry = "SELECT * FROM user WHERE iduser = '".$lastIdUser."' LIMIT 1";
+																		if($resultUserLast = mysql_query($userLastQry)){
+																			if (mysql_num_rows($resultUserLast) > 0) {
+																				$rowUserLast = mysql_fetch_array($resultUserLast);
+																				$lastUser = $rowUserLast['name'];
+																			}else{
+																				$lastUser = "-";
+																			}
+																		}
 
 																		echo "<tr>";
 																		echo "<td>".$no."</td>";
@@ -110,6 +125,7 @@
 																		echo "<td>".$name."</td>";
 																		echo "<td>".$serialNumber."</td>";
 																		echo "<td>".$status."</td>";
+																		echo "<td>".$lastUser."</td>";
 																		echo "<td>".$notes."</td>";
 																		echo "</tr>";
 																		$no++;
