@@ -616,7 +616,7 @@
 								<option value="" disabled selected>Pilih ID Inventory</option>
 								<?php
 									$invQry = "";
-									$invQry = "SELECT iduser, idinventory FROM item WHERE status != 'Stock' ORDER BY idinventory ASC";
+									$invQry = "SELECT iduser, idinventory FROM item WHERE status != 'Stock' AND idcategory = '".$idCat."' ORDER BY idinventory ASC";
 									if($resultInv = mysql_query($invQry)){
 										if (mysql_num_rows($resultInv) > 0) {
 											while ($rowInv = mysql_fetch_array($resultInv)) {
