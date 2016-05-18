@@ -52,13 +52,7 @@ foreach($_POST as $key => $val) {
 			<div class="navbar-fixed grey darken-3">
 				<nav class="grey darken-3">
 					<div class="nav-wrapper navbar-fixed grey darken-3 valign-wrapper left-menu">
-							<?php
-								if(isset($_SESSION['login']) && $_SESSION['login'] == 'logged'){
-									?>
-										<a href="#" data-activates="side-menu" class="button-collapse left ml-30"><i class="menu-side-icon material-icons">menu</i></a>
-									<?php
-								}
-							?>
+						<a href="#" data-activates="side-menu" class="button-collapse left ml-30"><i class="menu-side-icon material-icons">menu</i></a>
 						<a href="./" class="center brand-logo"><img class="admin-logo mt-10" src="images/cermati.png"></a>
 						<div style="width:100%" class="hide-on-med-and-down"><span class="font-open-sans right mr-30 font-40">Cermati Inventory</span></div>
 					</div>
