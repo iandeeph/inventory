@@ -6,7 +6,7 @@
 		<table class="striped responsive-table col s12">
 			<thead class="fixed">
 				<!-- =================== to wide screen display -->
-				<tr class="hide-on-small-only">
+				<tr class="hide-on-med-and-down">
 					<th width="5%" data-field="no">
 						No.
 					</th>
@@ -34,7 +34,7 @@
 					?>
 				</tr>
 				<!-- =================== to mobile screen display -->
-				<tr class="hide-on-med-and-up">
+				<tr class="hide-on-large-only">
 					<th data-field="name">
 						No.
 					</th>
