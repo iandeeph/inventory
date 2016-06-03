@@ -153,8 +153,8 @@
 								        if($resultNameUserUser = mysql_query($nameUserQry)){
 								            if (mysql_num_rows($resultNameUserUser) > 0) {
 								                $rowNameUser = mysql_fetch_array($resultNameUserUser);
-							                    $nameUser           = $rowNameUser['nameUser'];
-							                    $division     = $rowNameUser['division'];
+							                    $nameUser 	= $rowNameUser['nameUser'];
+							                    $division 	= $rowNameUser['division'];
 							                }
 							            }
 										?>
@@ -387,7 +387,7 @@
 											// ================================== LOGGING
 											if(mysql_query($updateItemQry)){
 												logging($now, $user, "Update Item", $loggingText, $postiditem);
-										        header('Location: ./index.php?menu=item');
+										        header('Location: ./index.php?menu=item$detail='.$detail);
 										    }else{
 										    	echo "ERROR: Could not able to execute ".$updateItemQry.". " . mysql_error($conn);
 										    }
