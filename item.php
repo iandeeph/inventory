@@ -387,7 +387,7 @@
 											// ================================== LOGGING
 											if(mysql_query($updateItemQry)){
 												logging($now, $user, "Update Item", $loggingText, $postiditem);
-										        header('Location: ./index.php?menu=item$detail='.$detail);
+										        header('Location: ./index.php?menu=item&detail='.$detail);
 										    }else{
 										    	echo "ERROR: Could not able to execute ".$updateItemQry.". " . mysql_error($conn);
 										    }
