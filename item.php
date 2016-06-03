@@ -122,7 +122,7 @@
 					<tbody>
 						<?php
 							$itemQry = "";
-							$itemQry = "SELECT *, DATE_FORMAT(dateIn, '%e %b %Y') as tglMasuk FROM item WHERE idinventory LIKE '%".$detail."%' ORDER BY idinventory ASC";
+							$itemQry = "SELECT *, DATE_FORMAT(dateIn, '%e %b %Y') as tglMasuk FROM item WHERE idinventory LIKE '%".$detail."%' ORDER BY LENGHT(idinventory), idinventory";
 							if($resultItemQry = mysql_query($itemQry)){
 								if (mysql_num_rows($resultItemQry) > 0) {
 									while ($rowItem = mysql_fetch_array($resultItemQry)) {
@@ -562,7 +562,7 @@
 								<option value="" disabled selected>Pilih ID Inventory</option>
 								<?php
 									$invQry = "";
-									$invQry = "SELECT idinventory FROM item WHERE status = 'Stock' AND idcategory = '".$idCat."' ORDER BY idinventory ASC";
+									$invQry = "SELECT idinventory FROM item WHERE status = 'Stock' AND idcategory = '".$idCat."' ORDER BY LENGHT(idinventory), idinventory";
 									if($resultInv = mysql_query($invQry)){
 										if (mysql_num_rows($resultInv) > 0) {
 											while ($rowInv = mysql_fetch_array($resultInv)) {
@@ -616,7 +616,7 @@
 								<option value="" disabled selected>Pilih ID Inventory</option>
 								<?php
 									$invQry = "";
-									$invQry = "SELECT iduser, idinventory FROM item WHERE status != 'Stock' AND idcategory = '".$idCat."' ORDER BY idinventory ASC";
+									$invQry = "SELECT iduser, idinventory FROM item WHERE status != 'Stock' AND idcategory = '".$idCat."' ORDER BY LENGHT(idinventory), idinventory";
 									if($resultInv = mysql_query($invQry)){
 										if (mysql_num_rows($resultInv) > 0) {
 											while ($rowInv = mysql_fetch_array($resultInv)) {
